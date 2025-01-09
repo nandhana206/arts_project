@@ -17,8 +17,8 @@ class Event(models.Model):
 # Student model with Many-to-Many relationship to Event model
 class Student(models.Model):
     name = models.CharField(max_length=100)
-    admission_number = models.CharField(max_length=15, unique=True)
-    department = models.CharField(max_length=50)
+    admission_number = models.CharField(max_length=15, unique=True,default=0)
+    department = models.CharField(max_length=50,default='')
     events = models.ManyToManyField(Event, blank=True)  # Relation to the Event model
 
     def __str__(self):
