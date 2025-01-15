@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Student, Event
+from django.contrib.auth import authenticate, login,logout
 
 # Register View
 def register_view(request):
@@ -130,3 +131,7 @@ def user_profile_view(request):
         'student': student,
         'registered_events': registered_events,
     })
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
