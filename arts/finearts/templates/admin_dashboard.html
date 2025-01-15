@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+        header img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin: 0;
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filters select {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="College Logo">
+    <div>
+        <h1>St. Thomas College (Autonomous), Thrissur</h1>
+        <p>Affiliated to the University of Calicut</p>
+    </div>
+</header>
+
+<div class="content">
+    <div class="card">
+        <h2>Total Number of Student Registrations</h2>
+        <p id="registration-count">{{ total_students }} / {{ total_capacity }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Event Registrations by Students</h2>
+        <div class="filters">
+            <label for="department-filter">Department:</label>
+            <select id="department-filter" onchange="filterTable()">
+                <option value="">All</option>
+                {% for department in departments %}
+                <option value="{{ department }}">{{ department }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="table-container">
+            <table id="students-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Registered Events</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.department }}</td>
+                        <td>{{ student.registered_events|join:", " }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        const departmentFilter = document.getElementById('department-filter').value.toLowerCase();
+        const table = document.getElementById('students-table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            let department = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+
+            if (department.includes(departmentFilter) || departmentFilter === '') {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

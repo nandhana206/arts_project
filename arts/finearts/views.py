@@ -131,7 +131,35 @@ def user_profile_view(request):
         'student': student,
         'registered_events': registered_events,
     })
-
+#logout
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+#admin_dashboard view
+def admin_dashboard(request):
+    # Fetch all students and their registered events
+    students = Student.objects.prefetch_related('events').all()
+    total_students = students.count()
+    total_capacity = 3000  # Set your capacity
+
+    # Group students by department and fetch their registered events
+    student_data = []
+    for student in students:
+        registered_events = [event.name for event in student.events.all()]
+        student_data.append({
+            'name': student.name,
+            'department': student.department,
+            'registered_events': registered_events,
+        })
+
+    # Unique departments
+    departments = students.values_list('department', flat=True).distinct()
+
+    return render(request, 'admin_dashboard.html', {
+        'total_students': total_students,
+        'total_capacity': total_capacity,
+        'students': student_data,
+        'departments': departments,
+    })
