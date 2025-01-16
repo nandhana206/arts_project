@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        /* Reuse styles from the login page */
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          }
+          .register-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+          }
+          .register-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+          }
+          .register-container form {
+            display: flex;
+            flex-direction: column;
+          }
+          .form-group {
+            margin-bottom: 15px;
+          }
+          .form-group label {
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+          }
+          .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+          }
+          .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+          }
+          .register-button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+          .register-button:hover {
+            background-color: #2980b9;
+          }
+          .login-link {
+            text-align: center;
+            margin-top: 10px;
+          }
+          .login-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+          }
+          .login-link a:hover {
+            text-decoration: underline;
+          }
+    </style>
+</head>
+<body>
+    
+    <div class="register-container">
+        <h2>Register</h2>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="admission_number">ID:</label>
+                <input type="text" id="admission_number" name="admission_number" placeholder="Enter your admission number" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" placeholder="Enter your department" required>
+            </div>
+            <button type="submit" class="register-button">Register</button>
+        </form>
+        <div class="login-link">
+            Already have an account? <a href="/login">Login here</a>
+          </div>
+    </div>
+</body>
+</html>
